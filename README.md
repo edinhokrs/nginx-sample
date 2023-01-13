@@ -1,2 +1,2 @@
-# chart-nginx
-Test
+# nginx-example
+Just testing
