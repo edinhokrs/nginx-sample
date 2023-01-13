@@ -1,0 +1,79 @@
+1. Configurar acesso ao cluster
+
+
+
+2. Escolha o chart Wordpress
+
+https://artifacthub.io/packages/helm/bitnami/wordpress
+
+
+3. Adicionar o repo
+
+helm repo add estag https://charts.bitnami.com/bitnami
+helm repo update
+
+
+4. Escolher os parâmetros 
+
+persistence.enabled=false
+ingress.enabled=true
+ingress.hostname="edison.stag.jac.bsb.br"
+resources.requests=null
+mariadb.primary.persistence.enable=false
+
+
+5. Instalar o pacote
+
+helm install wp-edison/estag/wordpress --create-namespace -n edison-krause --set persistence.enabled=false --set ingress.enabled=true --set ingress.hostname="wp-edison.stag.jac.bsb.br" --set resources.requests=null --set mariadb.primary.persistence.enable=false
+
+-> comando correto,
+helm install wp-edison-krause estag/wordpress --create-namespace -n edison-krause --set persistence.enabled=false --set ingress.enabled=true --set ingress.hostname="wp-edison-krause.stag.jac.bsb.br" --set resources.requests=null --set mariadb.primary.persistence.enabled=false
+
+
+6. Atualizar ou reconfigurar
+
+helm get values wp-<SEU NOME> -n <SEU NAMESPACE>
+
+Consultar os parâmetros atuais da release
+
+
+7. Rollback!!!
+
+helm rollback wp-edison-krause -n edison-krause
+
+
+8 - Desinstalar!!
+
+helm uninstall wp-edison-krause -n edison-krause
+
+---
+
+ingress:
+  enabled: true
+  hostname: wp-<SEU NOME>.stag.jac.bsb.br
+mariadb:
+  primary:
+    persistence:
+      enabled: false
+persistence:
+  enabled: false
+resources:
+  requests: null
+
+
+Criar arquivos values e modificar parâmetro desejado
+Executar o upgrade
+
+USER-SUPPLIED VALUES:
+ingress:
+  enabled: true
+  hostname: wp-edison-krause.stag.jac.bsb.br
+mariadb:
+  primary:
+    persistence:
+      enabled: false
+persistence:
+  enabled: false
+resources:
+  requests: null
+  

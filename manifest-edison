@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: edison-krause
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edison-teste
+  namespace: edison-krause
+  labels:
+    app: edison
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+       app: edison
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: edison
+    spec:
+      containers:
+      - image: edinhokrs/jack:latest
+        name: nginx-edison
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: edison-krause
+  namespace: edison-krause
+spec:
+  selector:
+     app: edison
+  ports:
+  - port: 80
+    targetPort: 80
+
+---
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: edison-v1
+  namespace: edison-krause
+
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: edison.stag.jac.bsb.br
+    http:
+      paths:
+      - backend:
+          service:
+            name: edison-krause
+            port:
+              number: 80
+        path: /
+        pathType: Prefix

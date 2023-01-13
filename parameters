@@ -1,0 +1,4 @@
+persistence.enabled=false
+ingress.enabled=true
+ingress.hostname="edison.stag.jac.bsb.br"
+resources.requests=null
