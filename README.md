@@ -1,2 +1,2 @@
-# nginx-example
+# nginx-sample
 Just testing
